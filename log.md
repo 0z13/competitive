@@ -11,3 +11,4 @@ competetive programming on my raspberry pi.
 Not super focused on competetive programming,
 got school, and fixed my PC so i'm back to working 
 on compilers. I'll try to do a few now and then.
+
