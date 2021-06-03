@@ -1,5 +1,3 @@
-use std::{error::Error, mem::replace, thread::current};
-
 mod sorting_the_sentence;
 fn main() {
     println!("Hello, world!");
@@ -8,32 +6,53 @@ fn main() {
     let s = String::from("hello");
     let x : u8 = 1;
     let y : u8 = 104;
+
+    let row1 = vec![1,2,3];
+    let row2 = vec![1,2,3];
+    let row3 = vec![1,2,3];
+    let tst = vec![row1,row2,row3];
+    println!("{}", diagonal_sum(tst));
 }
 
-fn str_if_possible () -> Result<String, Box<dyn Error>> {
-    Ok("Works".to_string()) 
 
+// I feel like i just figured out lifetimes.
+// It clicked.
+
+// So here is the deal.
+
+// Here's your run-of-the-mill struct.
+struct Person {
+    age: i32,
+    name: String,
 }
 
+// let's say you wanna implement a get method.
 
 
 
-/* 
-// Not sure how i add the byte b'1' AS u8 1.
-// whatever.
-pub fn replace_digits(s: String) -> String {
-    let mut res: String = "".to_string();
-    let mut previous : u8 = b'a';
-    for word in s.as_bytes() {
-        if word.is_ascii_alphabetic() {
-            previous = *word;
-            res.push(*word as char);
-        } else {
-            let x = *word + previous;
-            println!("{}", x);
-            res.push((word + previous) as char);
+pub fn diagonal_sum (xs : Vec<Vec<i32>>) -> i32 {
+    let mut sum = 0;
+    let mut rpointer = 0;
+    let mut lpointer = xs.len() - 1;
+    // Get right-to-left diagonal
+    for (index, item) in xs.iter().enumerate() {
+        for (index, item ) in item.iter().enumerate() {
+
+            if (index == rpointer) {
+                sum = sum + item;
+            }
+
+            if (index == lpointer) {
+                println!("i:{}, n: {}", item, index);
+                sum = sum + item;
+            }
+        }
+        rpointer = rpointer + 1;
+        if lpointer != 0 {
+        lpointer = lpointer - 1;
         }
     }
-    res
+    sum
 }
-*/
+
+
