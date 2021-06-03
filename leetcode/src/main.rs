@@ -7,11 +7,8 @@ fn main() {
     let x : u8 = 1;
     let y : u8 = 104;
 
-    let row1 = vec![1,2,3];
-    let row2 = vec![1,2,3];
-    let row3 = vec![1,2,3];
-    let tst = vec![row1,row2,row3];
-    println!("{}", diagonal_sum(tst));
+    let v = vec![1,1,1,1,2,2,3,3];
+    group_by_practice(v);
 }
 
 
@@ -27,6 +24,17 @@ struct Person {
 }
 
 // let's say you wanna implement a get method.
+#![feature(slice_group_by)]
+pub fn group_by_practice(xs: Vec<i32> ) -> () {
+    let a = xs.group_by(|a, b| a == b);
+
+    for i in a {
+        let l = i.len();
+        let e = i[0];
+        println!("e:{}l:{}", e, l);
+    }
+
+}
 
 
 
