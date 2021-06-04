@@ -8,7 +8,7 @@ fn main() {
     let y : u8 = 104;
 
     let v = vec![1,1,1,1,2,2,3,3];
-    group_by_practice(v);
+    println!("{}", square_is_white("a1".to_string()))
 }
 
 
@@ -24,18 +24,16 @@ struct Person {
 }
 
 // let's say you wanna implement a get method.
-#![feature(slice_group_by)]
-pub fn group_by_practice(xs: Vec<i32> ) -> () {
-    let a = xs.group_by(|a, b| a == b);
-
-    for i in a {
-        let l = i.len();
-        let e = i[0];
-        println!("e:{}l:{}", e, l);
-    }
-
+pub fn square_is_white(coordinates: String) -> bool {
+    // - 96
+    let mut vert = 'a';
+    let mut hori = 1;
+    let mut iter = coordinates.chars();
+    vert = iter.next().unwrap();
+    hori = iter.next().unwrap().to_string().parse::<i32>().unwrap();
+    let zz = (vert as i32) - 96;
+    (hori % 2 == 0  && zz % 2 != 0) || (hori % 2 != 0  && zz % 2 == 0) 
 }
-
 
 
 pub fn diagonal_sum (xs : Vec<Vec<i32>>) -> i32 {
