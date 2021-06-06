@@ -1,4 +1,5 @@
 mod sorting_the_sentence;
+mod foo;
 fn main() {
     println!("{}", max_value("-13".to_string(), 2))
 }
@@ -100,3 +101,4 @@ fn mk_small(s: String, n: i32) -> String {
     }
     res
 }
+
