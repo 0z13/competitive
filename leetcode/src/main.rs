@@ -1,7 +1,8 @@
 mod sorting_the_sentence;
 mod foo;
 fn main() {
-    println!("{}", max_value("-13".to_string(), 2))
+    println!("{}", max_value("-13".to_string(), 2));
+    println!("{}", String::from("Hello dear wold how are you").split_at(3))
 }
 
 
@@ -114,3 +115,24 @@ pub fn find_disappeared_numbers(mut nums: Vec<i32>) -> Vec<i32> {
 }
 
 //fk
+
+
+#[derive(Debug)]
+struct  MiniVec<T> {
+    v: Vec<T>,
+}
+
+impl<T> MiniVec<T> {
+    fn new() -> MiniVec<T> {
+        MiniVec{ v: Vec::new()}
+    }
+
+
+    fn push(&self, x: T) {
+        self.v.push(x);
+    }
+}
+
+pub fn truncate_sentence(s: String, k: i32) -> String {
+    s.split_off( k as usize) 
+}
