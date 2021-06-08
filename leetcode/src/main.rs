@@ -1,14 +1,5 @@
 fn main() {
-    let x: Vec<i32> = vec![1,1,0];
-    let xs:Vec<Vec<i32>> = vec![x.clone(),x.clone(),x.clone()];
-    let bah = flip_and_invert_image(xs);
-
-    for i in bah {
-        for j in i {
-            println!("{}", j);
-        }
-        
-    }
+   println!("{}", fib(10));
 }
 
 
@@ -29,4 +20,16 @@ pub fn flip_and_invert_image(image: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
         xs.push(input_vec);
     }
     xs
+}
+
+
+fn fib (n : i32) -> i32 {
+    let mut dp = vec![1,2];
+    let n = n as usize;
+    for i in 2..n {
+        dp.push(
+            dp[i - 2] + dp[i - 1]
+        )
+    } 
+    dp[n - 1]
 }
