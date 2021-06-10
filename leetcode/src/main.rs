@@ -22,14 +22,27 @@ pub fn flip_and_invert_image(image: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
     xs
 }
 
-
-fn fib (n : i32) -> i32 {
-    let mut dp = vec![1,2];
-    let n = n as usize;
-    for i in 2..n {
-        dp.push(
-            dp[i - 2] + dp[i - 1]
+pub fn fib(n: i32) -> i32 {
+    let mut n = n as usize;
+    let mut v: Vec<i32> = vec![0,1];
+    
+    for i in 2..=n {
+        v.push(
+            v[i-1] + v[i-2]
         )
-    } 
-    dp[n - 1]
+        }
+    v[n-1]
+}
+
+pub fn max_profit(prices: Vec<i32>) -> i32 {
+    let len = prices.len();
+    let mut max:i32 = 0;
+    for i in 0..len-1 {
+        for j in i+1..len {
+            if (prices[i] - prices[j] > max) {
+                max = (prices[i] -  prices[j]);
+            }
+        }
+    }
+    max
 }
