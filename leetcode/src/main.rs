@@ -13,5 +13,13 @@ pub fn search(nums: Vec<i32>, target: i32) -> i32 {
         Some(n) => return n as i32,
         None          => return -1,
     }
+}
 
+
+pub fn next_greatest_letter(letters: Vec<char>, target: char) -> char {
+    let pos = letters.iter().position(|x| *x == target);
+    match pos {
+        Some(x) => return letters.to_vec()[x + 1],
+        None => return -1  
+    }
 }
