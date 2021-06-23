@@ -23,3 +23,9 @@ pub fn next_greatest_letter(letters: Vec<char>, target: char) -> char {
         None => return -1  
     }
 }
+
+
+pub fn maximum_wealth(accounts: Vec<Vec<i32>>) -> i32 {
+    accounts.iter()
+      .map(|x| x.iter().fold(0, |acc, x| acc + x)).max().unwrap()
+}
