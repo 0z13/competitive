@@ -29,3 +29,20 @@ pub fn maximum_wealth(accounts: Vec<Vec<i32>>) -> i32 {
     accounts.iter()
       .map(|x| x.iter().fold(0, |acc, x| acc + x)).max().unwrap()
 }
+
+
+pub fn array_strings_are_equal(word1: Vec<String>, word2: Vec<String>) -> bool {
+    let mut s1: String = String::new();
+    let mut s2: String = String::new();
+    
+    
+    for i in word1 {
+        s1.push_str(i.as_str())
+    }
+
+    for i in word2 {
+        s2.push_str(i.as_str())
+    }
+
+    s1 == s2
+}
