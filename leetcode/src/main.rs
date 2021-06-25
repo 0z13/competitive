@@ -46,3 +46,10 @@ pub fn array_strings_are_equal(word1: Vec<String>, word2: Vec<String>) -> bool {
 
     s1 == s2
 }
+
+pub fn length_of_last_word(s: String) -> i32 {
+    match s.split_ascii_whitespace().last() {
+        Some(s) => s.len() as i32,
+        None     => 0 
+    }
+}
