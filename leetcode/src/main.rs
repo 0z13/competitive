@@ -53,3 +53,15 @@ pub fn length_of_last_word(s: String) -> i32 {
         None     => 0 
     }
 }
+
+
+pub fn restore_string(s: String, indices: Vec<i32>) -> String {
+s.chars()
+    .zip(indices)
+    .fold(vec![' '; s.len()], |mut v, (c, ind)| {
+        v[ind as usize] = c;
+        v
+    })
+    .into_iter()
+    .collect()
+}
