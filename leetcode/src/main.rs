@@ -65,3 +65,22 @@ s.chars()
     .into_iter()
     .collect()
 }
+
+pub fn max_width_of_vertical_area(points: Vec<Vec<i32>>) -> i32 {
+    let mut max:i32 = 0;
+    for point in points {
+        let curr = point[1];
+        let coord = point[0];
+        points.iter().filter(|x| x[1] == curr).for_each(|x| if (x[0] - coord).abs() > max {max = (x[0] - coord).abs()})
+
+    }
+    max  
+}
+
+
+
+pub fn is_palindrome(x: i32) -> bool {
+    let xs:String = x.to_string();
+    let rev:String = xs.chars().rev().collect();
+    xs == rev 
+}
