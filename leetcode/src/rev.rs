@@ -4,4 +4,7 @@ impl Solution {
         let rev:String = xs.chars().rev().collect();
         xs == rev 
     }
+
 }
+
+
