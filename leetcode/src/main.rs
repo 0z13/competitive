@@ -1,5 +1,12 @@
+
+use std::collections::HashMap;
 fn main() {
-    hammingWeight(1213891);
+    let mut v:Table = HashMap::new();  
+    let _a = v.insert("idk".to_string(), vec!["idk".to_string(), "adk".to_string()]);
+    f(&mut v);
+    for (i,j) in v {
+        println!("{:?}", j)
+    }
 }
 
 
@@ -40,4 +47,32 @@ pub fn hamming_weight_man(n:u32) -> i32 {
       inc >>=  1 
     }
     count
+}
+
+type Table = HashMap<String, Vec<String>>;
+
+fn f(table:&mut Table)  {
+    for (i, j) in table {
+        j.sort();
+    }
+}
+
+
+pub fn min_deletion_size(strs: Vec<String>) -> i32 {
+
+    let mut v:Vec<String> = Vec::new(); 
+
+    while strs[0].len() > 0 {
+        let tmp = "".to_string();
+        for i in strs {
+            tmp.push(i.remove(0))
+        }
+    }
+
+    for (i,j) in v.iter().enumerate() {
+        if !j.chars().is_sorted() {
+            return i as i32
+        }   
+    }
+    return 3
 }

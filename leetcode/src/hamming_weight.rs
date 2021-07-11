@@ -14,3 +14,4 @@ pub fn hamming_weight_man(n:u32) -> i32 {
     }
     count
 }
+
