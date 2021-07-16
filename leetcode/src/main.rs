@@ -57,6 +57,24 @@ fn f(table:&mut Table)  {
     }
 }
 
+pub fn unique_occurrences(arr: Vec<i32>) -> bool {
+       let mut m = HashMap::new(); 
+
+       for i in arr {
+           if !m.contains_key(&i) {
+               let _foo = m.insert(i, 1);
+           } else {
+               let  x = m.get(&i).unwrap();
+               let _fo = m.insert(i, x + 1);
+           }
+       }
+
+       let k = m[&arr[0]];
+       for i in m.values() {
+            if k != *i {return false;}
+       }
+       true
+}
 
 pub fn min_deletion_size(strs: Vec<String>) -> i32 {
 
