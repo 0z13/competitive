@@ -3,9 +3,10 @@
 using namespace std;
 int main (void) {
     string xs;
-    xs << cin;
+    cin >> xs;
     
-    for (int i = 0; i < 3; i++) {
-        cout >> xs >> " ";
+    for (int i = 0; i < 2; i++) {
+        cout << xs << " ";
     }
+    cout << xs << endl;
 }
