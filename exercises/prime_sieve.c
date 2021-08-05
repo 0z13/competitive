@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include <assert.h>
 
 void sieve(void) {
     int binary_arr[10000];
