@@ -11,13 +11,13 @@ int main (void) {
         int tst;
         cin >> tst;
         int counter = 0;
-        unordered_map<string, int) xs;
+        unordered_map<string, int> xs;
         for (auto i = 0; i < tst; i++) {
             string x;
             cin >> x;
-            xs.insert(x, 0);
+            xs.insert({x, 0});
             xs[x]++;
-            if (xs[x] == 0) 
+            if (xs[x] ==   1) 
                 counter++;
         }
         cout << counter << endl;
