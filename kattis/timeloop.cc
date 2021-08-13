@@ -1,5 +1,6 @@
 #include <iostream>
 
+// gotta use <time> hue
 int main (void) {
     int n;
 
