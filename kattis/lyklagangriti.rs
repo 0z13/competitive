@@ -41,57 +41,28 @@ impl<R: BufRead> Scanner<R> {
     }
 }
 
-fn f(mut xs:Vec<String>) -> i32 {
-    let mut red = 0;
-    let mut black = 0;
-    let mut red_nums = vec![];
-    let mut ones = 1;
-    let mut black_nums = vec![];
-    for i in &mut xs {
-        
-        let comp = i.pop().unwrap();
-        if comp == 'R' {
-            red += 1;
-            let mut x =i.parse::<i32>().unwrap();
-            x -= 1;
-            red_nums.push(x);
-        } else if comp == 'B' {
-            black += 1;
-            let mut x = i.parse::<i32>().unwrap();
-            x -= 1;
-            black_nums.push(x);
-        }
-    }
-    let n = min(red, black);
-    if (n == 0) {return 0;}
-    let mut v = vec![];
-    red_nums.sort();
-    black_nums.sort();
-    for i in 0..n {
-        let rnum = red_nums.pop().unwrap();
-        if rnum == 1 { ones += 1 }
-        v.push(rnum);
-        let bnum = black_nums.pop().unwrap();
-        if bnum == 1 { ones += 1 }
-        v.push(bnum);
-    }
-
-    let s = v.iter().sum::<i32>();
-    s 
-}
-
 
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let n: i32 = scan.token();
-
-    for i in 0..n {
-        let nn: i32 = scan.token();
-        let mut xs: Vec<String> = vec![];
-        for i in 0..nn {
-            xs.push(scan.token::<String>()); 
+    let s: Vec<char> = scan.token::<String>().chars().collect();
+    let mut res:Vec<char> = vec![];
+    let mut pointer:usize= 0;
+    for i in s {
+        if i == 'B' {
+            if pointer != 0 {
+                pointer -= 1;
+            }
+            res.remove(pointer);
+        } else if i == 'L' {
+            if pointer == 0 {
+                continue;
+            }
+            pointer -= 1;
+        } else {
+            res.insert(pointer, i);
+            pointer += 1;
         }
-        writeln!(w, "Case #{}: {}", (i+1), f(xs));
     }
+    writeln!(w, "{}", res.into_iter().collect::<String>());
 }
 
 fn main() {
