@@ -34,43 +34,27 @@ impl<R: BufRead> Scanner<R> {
             }
         }
     }
-    fn read_str(&mut self) -> String {
-        let mut s = String::new();
-        self.reader.read_line(&mut s);
-        return s; 
+}
+
+fn reduce(x:i32, y:i32) -> (i32, i32) {
+    if (x % y == 0) {
+        return(x,y);
+    } else {
+        let v = x % y;
+        let x = x / v;
+        let y = y / v;
+        return (x, y);
     }
 }
 
 
-
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let s: String = scan.read_str(); 
-    let mut buffer = String::new();
-    let mut flag:char = '0';
-    let vowels = "aieou";
-    for i in s.chars() {
-       
-
-        // I was very tired lol
- 
-        if flag == i {
-            flag = '0';
-            continue;
-        }
-
-       
-        if flag != '0' {
-            continue;
-        }
-        if vowels.contains(i) {
-            flag = i; 
-            buffer.push(i);
-            continue;
-        } 
-        buffer.push(i);
-        
-    }
-    writeln!(w, "{}", buffer);
+    let n:i32 = scan.token();
+    let v:Vec<i32> = (0..n).map(|_| scan.token()).collect();
+    for i in (1..(v.len())) {
+       let (f, l) = reduce(v[0], v[i]); 
+       writeln!(w, "{}/{}", f, l);
+    } 
 }
 
 fn main() {
