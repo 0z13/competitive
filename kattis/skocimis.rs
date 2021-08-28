@@ -42,11 +42,11 @@ impl<R: BufRead> Scanner<R> {
 }
 
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let n:i32 = scan.token();
-    for i in 0..n {
-        let x:f64 = scan.token();
-        writeln!(w, "{}", (x / 400.0).ceil());
-    }
+    let x:i32 = scan.token();
+    let y:i32 = scan.token();
+    let z:i32 = scan.token();
+    let m = max((y - x), (z - y));
+    writeln!(w, "{}", (m -1));
 }
 
 fn main() {
