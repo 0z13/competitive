@@ -42,12 +42,23 @@ impl<R: BufRead> Scanner<R> {
 }
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
     let n:i32 = scan.token();
-
-    for i in 0..n {
-        let k:i32 = scan.token();
-        let p:i32 = scan.token();
-        writeln!(w, "{} {} {} {}", k, ((p+p*p)/2), p*p, p*(1+p));
+    let mut prev_y:i32 = 0;
+    let mut prev_x:i32 = 0;
+    let mut x:i32 = 0;
+    let mut y:i32 = 0;
+    let mut mx = 0;
+    for i in 1..=n {
+        let x = scan.token();
+        let y = scan.token();
+        if (y-prev_y) != 0 {
+            mx = max(mx, ((y-prev_y)/(x-prev_x)));
+        }
+        prev_y = y;
+        prev_x = x;
     }
+
+    mx = max(mx, ((y-prev_y)/(x-prev_x)));
+    writeln!(w, "{}", mx);
 }
 
 fn main() {

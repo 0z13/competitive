@@ -41,13 +41,21 @@ impl<R: BufRead> Scanner<R> {
     }
 }
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let n:i32 = scan.token();
-
-    for i in 0..n {
-        let k:i32 = scan.token();
-        let p:i32 = scan.token();
-        writeln!(w, "{} {} {} {}", k, ((p+p*p)/2), p*p, p*(1+p));
+    let e:i32 = scan.token();
+    let f:i32 = scan.token();
+    let c:i32 = scan.token();
+    let mut total = e+f;
+    let mut bottles = 0;
+    let mut bottle_amount = 0;
+    while (total >= c) {
+        bottle_amount = total / c;
+        let tmp:i32 = total;
+        total = bottle_amount;
+        total += tmp % c;
+        bottles += bottle_amount;
     }
+    writeln!(w, "{}", bottles);
+
 }
 
 fn main() {

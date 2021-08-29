@@ -41,13 +41,18 @@ impl<R: BufRead> Scanner<R> {
     }
 }
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let n:i32 = scan.token();
-
-    for i in 0..n {
-        let k:i32 = scan.token();
-        let p:i32 = scan.token();
-        writeln!(w, "{} {} {} {}", k, ((p+p*p)/2), p*p, p*(1+p));
-    }
+    let hour: i32 = scan.token();
+    let minute: i32 = scan.token();
+    let diff = minute - 45;    
+    if diff >= 0 {
+        writeln!(w, "{} {}", hour, diff);
+    } else {
+        if hour == 0 {
+            writeln!(w, "{} {}", 23, 60+diff);
+        } else {
+            writeln!(w, "{} {}", (hour -1), 60+diff);
+        }
+    } 
 }
 
 fn main() {
