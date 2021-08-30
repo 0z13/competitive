@@ -41,14 +41,24 @@ impl<R: BufRead> Scanner<R> {
     }
 }
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let n: i32 = scan.token();
-    let xs: Vec<i32> = (0..n).map(|_| scan.token()).collect();
-    let mut counter = 0; 
-    for i in xs {
+    let n:i32 = scan.token();
+    let x:Vec<String> = (0..n).map(|_| scan.token()).collect();
+    let mut fishy  = false;
+    let mut counter = 0;
+    for i in x {
         counter += 1;
-        if (counter != i) {
-            writeln!(w, "{}", counter);
+        if i.eq(&"mumble".to_string()) || i.parse::<i32>().unwrap() == counter  {
+        } else {
+            fishy = true;
+            break;
         }
+        
+    }
+    if !fishy {
+            writeln!(w, "{}", "makes sense");
+    } else {
+
+            writeln!(w, "{}", "something is fishy");
     }
 }
 
