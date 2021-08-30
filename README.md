@@ -1,3 +1,3 @@
 # competitive
 
-Most answers are from the Kattis judge, and written in Rust.
+Most answers are to Kattis' exercises, written in Rust.
