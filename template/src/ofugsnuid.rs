@@ -1,6 +1,8 @@
 #![allow(dead_code)]
 #![allow(unused)]
-#![allow(unused_imports)] use std::cmp::{max, min, Reverse}; use std::collections::{HashMap, HashSet};
+#![allow(unused_imports)]
+use std::cmp::{max, min, Reverse};
+use std::collections::{HashMap, HashSet};
 use std::io::{self, prelude::*};
 use std::str;
 
@@ -38,12 +40,13 @@ impl<R: BufRead> Scanner<R> {
         return s; 
     }
 }
-
-
-
-
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-
+    let n:i32 = scan.token();
+    let mut xs: Vec<i32> = (0..n).map(|_| scan.token()).collect();
+    xs.reverse();
+    for i in xs {
+        writeln!(w, "{}", i);
+    }
 }
 
 fn main() {

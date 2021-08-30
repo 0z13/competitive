@@ -1,6 +1,8 @@
 #![allow(dead_code)]
 #![allow(unused)]
-#![allow(unused_imports)] use std::cmp::{max, min, Reverse}; use std::collections::{HashMap, HashSet};
+#![allow(unused_imports)]
+use std::cmp::{max, min, Reverse};
+use std::collections::{HashMap, HashSet};
 use std::io::{self, prelude::*};
 use std::str;
 
@@ -38,12 +40,23 @@ impl<R: BufRead> Scanner<R> {
         return s; 
     }
 }
-
-
-
-
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
+    let s:Vec<char> = scan.read_str().chars().collect();
 
+    for i in 0..(s.len()-2) {
+
+        if s[i] == ':' || s[i] == ';' {
+            if s[i+1] == ')' {
+                writeln!(w, "{}", i);
+            }
+
+            if s[i+1] == '-' {
+                if i+2 <= s.len() && s[i+2] == ')' {
+                    writeln!(w, "{}", i);
+                }
+            }
+        }
+    }
 }
 
 fn main() {
