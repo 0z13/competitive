@@ -41,18 +41,16 @@ impl<R: BufRead> Scanner<R> {
    }
 }
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let mut flag = true;
-    for i in 1..=5 {
-        let s = scan.read_str();
-        if s.contains("FBI") {
-            flag = false;
-            write!(w, "{} ", i); // ws matter?
+    let s = scan.read_str();
+    let mut ret = String::new();
+    let mut prev = '0';
+    for i in s.chars() {
+        if i != prev {
+            ret.push(i);
         }
+        prev = i;
     }
-
-    if flag {
-        writeln!(w, "{}", "HE GOT AWAY!");
-    }
+    writeln!(w, "{}", ret);
 }
 
 fn main() {
