@@ -2,7 +2,7 @@
 #![allow(unused)]
 #![allow(unused_imports)]
 use std::cmp::{max, min, Reverse};
-use std::collections::{HashMap, BTreeMap, HashSet};
+use std::collections::{HashMap, HashSet};
 use std::io::{self, prelude::*};
 use std::str;
 use std::f64::consts::PI;
@@ -40,58 +40,14 @@ impl<R: BufRead> Scanner<R> {
         return s; 
    }
 }
-fn sevens(xs: Vec<i32>) -> bool {
-    for i in (0..xs.len()) {
-        for j in ((i+1)..xs.len()) {
-            if xs[i] != xs[j] && xs[i]+xs[j]==7777 {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-fn simulate(x:i32, d1c:i32, d1a:i32) -> bool { 
-
-    let mut angry = true; 
-    let mut xx = x;
-    let mut tick = 1;
-    let mut calm_tick = 1;
-    let mut angry_tick = 1;
-    while tick != x {
-    println!("angry:{}calm:{}tick:{}", angry_tick, calm_tick, tick);
-    match angry {
-        true => {
-            tick += 1;
-            angry_tick += 1;
-            if (angry_tick == d1a) {
-                angry_tick = 1;
-                angry = false;
-            }
-        }
-        false => {
-            tick += 1;
-            calm_tick +=1;
-            if (calm_tick == d1c) {
-                calm_tick = 1;
-                angry = true;
-                }
-            }
-        }
-    }
-    angry
-}
 
 
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-
-    println!("does this work? {}", simulate(3, 2, 2));
-
-    
-
-
-
-
+    let r: f64 = scan.token();
+    let c: f64 = scan.token();
+    let p = (r-c)*(r-c)*PI;
+    let pnc= r*r*PI;
+    writeln!(w, "{:.6}", (p / pnc)*100.0);
 }
 
 fn main() {

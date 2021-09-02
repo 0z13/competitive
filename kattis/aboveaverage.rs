@@ -40,58 +40,21 @@ impl<R: BufRead> Scanner<R> {
         return s; 
    }
 }
-fn sevens(xs: Vec<i32>) -> bool {
-    for i in (0..xs.len()) {
-        for j in ((i+1)..xs.len()) {
-            if xs[i] != xs[j] && xs[i]+xs[j]==7777 {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-fn simulate(x:i32, d1c:i32, d1a:i32) -> bool { 
-
-    let mut angry = true; 
-    let mut xx = x;
-    let mut tick = 1;
-    let mut calm_tick = 1;
-    let mut angry_tick = 1;
-    while tick != x {
-    println!("angry:{}calm:{}tick:{}", angry_tick, calm_tick, tick);
-    match angry {
-        true => {
-            tick += 1;
-            angry_tick += 1;
-            if (angry_tick == d1a) {
-                angry_tick = 1;
-                angry = false;
-            }
-        }
-        false => {
-            tick += 1;
-            calm_tick +=1;
-            if (calm_tick == d1c) {
-                calm_tick = 1;
-                angry = true;
-                }
-            }
-        }
-    }
-    angry
-}
 
 
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
+    let n: i32 = scan.token();
 
-    println!("does this work? {}", simulate(3, 2, 2));
-
-    
-
-
-
-
+    for i in (0..n) {
+        let nn = scan.token();
+        let xs:Vec<usize> = (0..nn).map(|_| scan.token()).collect();
+        println!("{:?}", xs);
+        let avg: usize = xs.iter().sum::<usize>() / xs.len();
+        println!("{:?}", avg);
+        let above_avg:Vec<&usize> = xs.iter().filter(|x| x > &&avg).collect();
+        println!("{:?}", above_avg.len());
+        writeln!(w, "{:.3}%", ((above_avg.len() as f64)/(xs.len() as f64)*100.0));
+    }
 }
 
 fn main() {

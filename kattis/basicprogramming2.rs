@@ -51,47 +51,59 @@ fn sevens(xs: Vec<i32>) -> bool {
     return false;
 }
 
-fn simulate(x:i32, d1c:i32, d1a:i32) -> bool { 
-
-    let mut angry = true; 
-    let mut xx = x;
-    let mut tick = 1;
-    let mut calm_tick = 1;
-    let mut angry_tick = 1;
-    while tick != x {
-    println!("angry:{}calm:{}tick:{}", angry_tick, calm_tick, tick);
-    match angry {
-        true => {
-            tick += 1;
-            angry_tick += 1;
-            if (angry_tick == d1a) {
-                angry_tick = 1;
-                angry = false;
+fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
+    let n: i32 = scan.token();
+    let t: i32 = scan.token();
+    let mut xs: Vec<i32> = (0..n).map(|_| scan.token()).collect();
+    xs.rdxsort();
+    match t {
+        1 => {
+            if xs.len() <= 1 {
+                writeln!(w, "{}", "No");
+            } else if sevens(xs) {
+                writeln!(w, "{}", "Yes");
+            } else {
+                writeln!(w, "{}", "No");
+            }
+        },
+        2 => {
+           let len = xs.len();
+           xs.dedup();
+           if xs.len() == len { 
+               writeln!(w, "{}", "Unique");
+           } else {
+               writeln!(w, "{}", "Contains duplicate");
+           }
+        }
+        3 => {
+            let len =xs.len(); 
+            let avg = (len as f32 / 2.0).ceil();
+            if (xs[0] == xs[(avg -1.0) as usize]) {
+                writeln!(w, "{}", xs[0]);
+            } else {
+                writeln!(w, "{}", -1);
             }
         }
-        false => {
-            tick += 1;
-            calm_tick +=1;
-            if (calm_tick == d1c) {
-                calm_tick = 1;
-                angry = true;
-                }
+        4 => {
+             let len = xs.len();
+             let mid = len/2;
+             if (len % 2 != 0) {
+                 writeln!(w, "{}", xs[len/2]);
+             } else {
+                 writeln!(w, "{} {}", xs[mid-1], xs[mid]);
+             }
+        }
+        5 => {
+            let xs = xs.iter().filter(|x| x >= &&100 && x <= &&999 ).collect::<Vec<&i32>>();
+            for i in xs {
+                write!(w, "{} ", i);
             }
+        }
+        _ => {
+            panic!("kurrrrchaaa");
         }
     }
-    angry
-}
-
-
-fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-
-    println!("does this work? {}", simulate(3, 2, 2));
-
-    
-
-
-
-
+                
 }
 
 fn main() {
