@@ -41,19 +41,16 @@ impl<R: BufRead> Scanner<R> {
    }
 }
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let n: i32 = scan.token();
-    let v: Vec<i32> = (1..n).map(|_| scan.token()).collect();
-    let mut xs:Vec<i32> = (0..n).collect();
-    let mut n = 2;
-    xs[0] = 1;
-    for i in v {
-        xs[(i + 1) as usize] = n;
-        n += 1;
+    let s = scan.read_str();
+    let mut ret = String::new();
+    let mut prev = '0';
+    for i in s.chars() {
+        if i != prev {
+            ret.push(i);
+        }
+        prev = i;
     }
-
-    for i in xs {
-        println!("{}", i);
-    }
+    writeln!(w, "{}", ret);
 }
 
 fn main() {
