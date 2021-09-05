@@ -41,29 +41,12 @@ impl<R: BufRead> Scanner<R> {
    }
 }
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let s:Vec<char> = scan.read_str().to_ascii_uppercase().trim().chars().collect();
-    let mut counter = 0;
-    let mut zz = 0; 
-    let mut id1 = 0;
-    let mut id2 = 1;
-    let mut id3 = 2;
-    while (zz != (s.len() / 3)) {
-        if s[id1] != 'P' {
-            counter += 1;
-        }
-        if s[id2] != 'E'{
-            counter += 1;
-        }
-        if s[id3] != 'R'{
-            counter += 1;
-        } 
-        zz += 1;
-        id1 += 3;
-        id2 += 3;
-        id3 += 3;
+    let n:i32 = scan.token();
+    for i in 0..n {
+        let beats:f64 = scan.token();
+        let secs:f64= scan.token();
+        writeln!(w, "{:.4} {:.4} {:.4}", (((beats-1.0)*60.0)/secs), (((beats)*60.0)/secs), (((beats+1.0)*60.0)/secs));
     }
-
-    writeln!(w, "{:?}", counter);
 }
 fn main() {
     let (stdin, stdout) = (io::stdin(), io::stdout());
