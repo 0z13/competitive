@@ -41,10 +41,20 @@ impl<R: BufRead> Scanner<R> {
    }
 }
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let n:i32 = scan.token();
-    let tmp = n.pow(2)+1;
-    writeln!(w, "{}", tmp*tmp);
+    let s = scan.read_str();
+    let len_dup = s.len();
+    let mut xs:Vec<char> = s.chars().collect();
+    xs.sort();
+    xs.dedup();
+    let len_no_dup = xs.len();
+    if len_dup == len_no_dup {
+        writeln!(w, "{}", 1);
+    } else {
+        writeln!(w, "{}", 0);
+    }
+
 }
+
 fn main() {
     let (stdin, stdout) = (io::stdin(), io::stdout());
     let mut scan = Scanner::new(stdin.lock());

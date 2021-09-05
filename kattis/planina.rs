@@ -41,8 +41,8 @@ impl<R: BufRead> Scanner<R> {
    }
 }
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let n:i32 = scan.token();
-    let tmp = n.pow(2)+1;
+    let n:u32 = scan.token();
+    let tmp:i32= 2_i32.pow(n)+1;
     writeln!(w, "{}", tmp*tmp);
 }
 fn main() {

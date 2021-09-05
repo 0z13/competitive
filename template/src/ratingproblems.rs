@@ -40,11 +40,32 @@ impl<R: BufRead> Scanner<R> {
         return s; 
    }
 }
-fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let n:i32 = scan.token();
-    let tmp = n.pow(2)+1;
-    writeln!(w, "{}", tmp*tmp);
+fn sevens(xs: Vec<i32>) -> bool {
+    for i in (0..xs.len()) {
+        for j in ((i+1)..xs.len()) {
+            if xs[i] != xs[j] && xs[i]+xs[j]==7777 {
+                return true;
+            }
+        }
+    }
+    return false;
 }
+
+fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
+    let n: f32= scan.token();
+    let k: f32= scan.token();
+    let mut xs: Vec<f32> = Vec::new();
+    for i in 0..(k as usize) {
+        let ele = scan.token();
+        xs.push(ele);
+    }
+    let avg: f32 = xs.iter().sum();
+    let max = (avg+((n-k)*3.0)) / n;
+    let min = (avg+((n-k)*(-3.0))) / n;
+    writeln!(w ,"{} {}", min, max );
+
+}
+
 fn main() {
     let (stdin, stdout) = (io::stdin(), io::stdout());
     let mut scan = Scanner::new(stdin.lock());
