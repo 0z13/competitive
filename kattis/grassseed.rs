@@ -41,19 +41,15 @@ impl<R: BufRead> Scanner<R> {
    }
 }
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
+    let price: f64= scan.token();
     let n = scan.token();
-    let mut sum:f64 = 0.0;
-    let mut count:f64 = 0.0;
-    for i in 0..n {
-        let x: f64 = scan.token();
-        if x != -1.0 {
-            sum += x;
-            count += 1.0;
-        }
+    let mut res: f64= 0.0;
+    for i in (0..n) {
+        let l:f64= scan.token();
+        let w:f64= scan.token();
+        res += (l*w)*price;
     }
-    let x = sum/count;
-    writeln!(w, "{:.15}", x);
-
+    writeln!(w, "{}", res);
 }
 fn main() {
     let (stdin, stdout) = (io::stdin(), io::stdout());

@@ -40,20 +40,41 @@ impl<R: BufRead> Scanner<R> {
         return s; 
    }
 }
+
+fn digit_sum(x:i32) -> i32{
+    let mut num = x;
+    let mut sum = 0;
+    while (num > 0) {
+        sum += (num % 10);
+        num /= 10;
+    }
+    return sum;
+}
+
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let n = scan.token();
-    let mut sum:f64 = 0.0;
-    let mut count:f64 = 0.0;
-    for i in 0..n {
-        let x: f64 = scan.token();
-        if x != -1.0 {
-            sum += x;
-            count += 1.0;
+    let l: i32 = scan.token();
+    let d: i32 = scan.token();
+    let x: i32 = scan.token();
+    
+    let mut min = l;
+    let mut max = d;
+    loop {
+        if (digit_sum(min) == x) {
+            writeln!(w, "{}", min);
+            break;
+        } else {
+            min += 1;
         }
     }
-    let x = sum/count;
-    writeln!(w, "{:.15}", x);
 
+    loop {
+        if (digit_sum(max) == x) {
+            writeln!(w, "{}", max);
+            break;
+        } else {
+            max -= 1;
+        }
+    }
 }
 fn main() {
     let (stdin, stdout) = (io::stdin(), io::stdout());
