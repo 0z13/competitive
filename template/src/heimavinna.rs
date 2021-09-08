@@ -40,37 +40,22 @@ impl<R: BufRead> Scanner<R> {
         return s; 
    }
 }
-//fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-   //let n:i32 = scan.token();
-   //let m:i32 = scan.token();
-
-   //let some_str = scan.read_str();
-   //let mut set:HashSet<&str> = some_str.split(' ').collect();
-   //for i in 1..n {
-       //let other_str = scan.read_str();
-       //let other:HashSet<&str> = other_str.rsplit(' ').collect();
-       //set = set.intersection(&other).copied().collect();
-   //}
-//}
-
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let n:i32 = scan.token();
-    let mut cap:i32 = scan.token();
-    let mut count = 0;
-    let mut flag = true;
-    let numbers = (0..n).map(|_| scan.token()).collect::<Vec<i32>>();
-    for num in numbers {
-        cap = cap - num;
-        if 0 >= cap {
-            writeln!(w, "{}", count);
-            flag = false;
-            break;
+    let ss: String = scan.read_str();
+    let s:Vec<&str>= ss.split(';').collect();
+    let mut r = 0;
+    for i in s {
+        if !i.contains('-') {
+            let x = i.trim().parse::<i32>().unwrap();
+            r += 1;
+        } else  {
+            let mut iter = i.trim().split('-');
+            let x: i32= iter.next().unwrap().parse().unwrap();
+            let y: i32= iter.next().unwrap().parse().unwrap();
+            r += (y-x)+1;
         } 
-        count += 1;
     }
-    if flag {
-        writeln!(w, "{}", count);
-    }
+    writeln!(w, "{}", r);
 }
 
 fn main() {
