@@ -40,11 +40,15 @@ impl<R: BufRead> Scanner<R> {
         return s; 
    }
 }
+
+
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let n:u32 = scan.token();
-    let tmp = 2_i32.pow(n)+1;
-    writeln!(w, "{}", tmp*tmp);
+    let x:i32 = scan.token();
+    let s:i32 = scan.token();
+
+    writeln!(w, "{}", s*2-x);
 }
+
 fn main() {
     let (stdin, stdout) = (io::stdin(), io::stdout());
     let mut scan = Scanner::new(stdin.lock());

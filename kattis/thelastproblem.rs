@@ -42,20 +42,10 @@ impl<R: BufRead> Scanner<R> {
 }
 
 
-
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let mut abc: Vec<i32> = (0..3).map(|n| scan.token()).collect();
-    abc.sort();
-    let letters: String = scan.token();
-        for i in letters.chars() {
-            match i {
-                'A' => {write!(w, "{} ", abc[0]);},
-                'B' => {write!(w, "{} ", abc[1]);}, 
-                'C' => {write!(w, "{} ", abc[2]);},
-                _   => {write!(w, "{} ", abc[2]);},
-            }
-        }
-    
+    let s= scan.read_str();
+    let s = s.trim();
+    writeln!(w, "Thank you, {}, and farewell!", s);
 }
 
 fn main() {

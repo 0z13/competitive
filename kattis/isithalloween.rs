@@ -40,19 +40,17 @@ impl<R: BufRead> Scanner<R> {
         return s; 
    }
 }
-fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let s = scan.read_str();
-    let len_dup = s.len();
-    let mut xs:Vec<char> = s.chars().collect();
-    xs.sort();
-    xs.dedup();
-    let len_no_dup = xs.len();
-    if len_dup == len_no_dup {
-        writeln!(w, "{}", 1);
-    } else {
-        writeln!(w, "{}", 0);
-    }
 
+
+fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
+    let s:String = scan.token();
+    let num:i32= scan.token();
+
+    match (s.as_str(), num) {
+        ("OCT", 31) => {writeln!(w, "{}", "yup");},
+        ("DEC", 25) => {writeln!(w, "{}", "yup");},
+         _  => {writeln!(w, "{}", "nope");},
+    }
 }
 
 fn main() {

@@ -40,24 +40,12 @@ impl<R: BufRead> Scanner<R> {
         return s; 
    }
 }
-fn sevens(xs: Vec<i32>) -> bool {
-    for i in (0..xs.len()) {
-        for j in ((i+1)..xs.len()) {
-            if xs[i] != xs[j] && xs[i]+xs[j]==7777 {
-                return true;
-            }
-        }
-    }
-    return false;
-}
+
 
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let n = scan.token();
-    let xs: Vec<i32> = (0..n).map(|_| scan.token()).collect();
-    let min = xs.iter().min().unwrap();
-    let res = xs.iter().position(|&x| x == *min).unwrap();
-    writeln!(w, "{}", res);
-
+    let x: f64 = scan.token();
+    let res = 1087.7626*x;
+    writeln!(w, "{}", res.round());
 }
 
 fn main() {

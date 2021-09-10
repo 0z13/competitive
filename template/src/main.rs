@@ -2,6 +2,7 @@
 #![allow(unused)]
 #![allow(unused_imports)]
 use std::cmp::{max, min, Reverse};
+use std::cmp::Ordering::{Equal,Less,Greater};
 use std::collections::{HashMap, BTreeMap, HashSet};
 use std::io::{self, prelude::*};
 use std::str;
@@ -34,44 +35,58 @@ impl<R: BufRead> Scanner<R> {
             }
         }
     }
-    fn read_str(&mut self) -> String {
+    // annoying EOF parsing 
+    fn read_str(&mut self) -> Option<String>{
+        // should probably trim stuff
         let mut s = String::new();
-        self.reader.read_line(&mut s);
-        return s; 
-   }
+        let mut si = self.reader.read_line(&mut s);
+        if s.eq("\n") {
+            return None
+        }
+        if s.eq("EOF\n") {
+            return None
+        }
+        if s.eq("EOF") {
+            return None
+        }
+        match si {
+            // EOF
+            Ok(0) => None,
+            _     => Some(s)
+        }
+  }
 }
-//fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-   //let n:i32 = scan.token();
-   //let m:i32 = scan.token();
 
-   //let some_str = scan.read_str();
-   //let mut set:HashSet<&str> = some_str.split(' ').collect();
-   //for i in 1..n {
-       //let other_str = scan.read_str();
-       //let other:HashSet<&str> = other_str.rsplit(' ').collect();
-       //set = set.intersection(&other).copied().collect();
-   //}
-//}
 
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let n:i32 = scan.token();
-    let mut cap:i32 = scan.token();
-    let mut count = 0;
-    let mut flag = true;
-    let numbers = (0..n).map(|_| scan.token()).collect::<Vec<i32>>();
-    for num in numbers {
-        cap = cap - num;
-        if 0 >= cap {
-            writeln!(w, "{}", count);
-            flag = false;
+    let n = scan.token::<i32>();
+    let mut anywhere = true;
+    for i in 0..n {
+        let items = scan.token::<i32>();
+        let name: String = scan.read_str().unwrap();
+        let mut p =[false, false];
+
+        for i in 0..items {
+            let f = scan.read_str().unwrap();
+            let f = f.trim();
+            if f.eq("pea soup") {
+                p[0] = true;
+            }
+            if f.eq("pancakes") {
+                p[1] = true;
+            }
+        }
+        if p[0] == true && p[1] == true {
+            writeln!(w, "{}", name);
+            anywhere = false;
             break;
-        } 
-        count += 1;
+        }
     }
-    if flag {
-        writeln!(w, "{}", count);
+    if anywhere {
+        writeln!(w, "{}", "Anywhere is fine I guess");
     }
 }
+
 
 fn main() {
     let (stdin, stdout) = (io::stdin(), io::stdout());
