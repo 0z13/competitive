@@ -60,55 +60,328 @@ impl<R: BufRead> Scanner<R> {
 
 
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let n = scan.token::<i32>();
+    let mut map: BTreeMap<char ,Vec<char>> = BTreeMap::new();
+    // ~_~
+    map.insert('G', String::from("G:                                                           ").chars().collect());
+    map.insert('F', String::from("F: ----------------------------------------------------------").chars().collect());
+    map.insert('E', String::from("E:                                                           ").chars().collect());
+    map.insert('D', String::from("D: ----------------------------------------------------------").chars().collect());
+    map.insert('C', String::from("C:                                                           ").chars().collect());
+    map.insert('B', String::from("B: ----------------------------------------------------------").chars().collect());
+    map.insert('A', String::from("A:                                                           ").chars().collect());
+    map.insert('g', String::from("g: ----------------------------------------------------------").chars().collect());
+    map.insert('f', String::from("f:                                                           ").chars().collect());
+    map.insert('e', String::from("e: ----------------------------------------------------------").chars().collect());
+    map.insert('d', String::from("d:                                                           ").chars().collect());
+    map.insert('c', String::from("c:                                                           ").chars().collect());
+    map.insert('b', String::from("b:                                                           ").chars().collect());
+    map.insert('a', String::from("a: ----------------------------------------------------------").chars().collect());
+    
 
+    let n:i32 = scan.token();
+    let mut counter:usize = 3;
     for i in 0..n {
-        let s:Vec<char> = scan.read_str().unwrap().chars().collect();
-        let mut sbuf = String::new();
-        let mut p = '0';
-        for i in s {
+        let mut c = scan.token::<String>();
+        let mut c = c.chars();
+        match c.next().unwrap() {
+            'D' => {
+                let num = c.as_str().parse::<i32>();
+                let e = map.entry('D').or_default();
+                match num {
+                    Ok(n) => {
+                        for i in 0..n {
+                            e[counter] = '*';
+                            counter += 1;
+                        }
+                            e[counter] = ' ';
+                    },
 
-            let s = match i.to_ascii_uppercase() {
-                'A' => "2",
-                'B' => "22",
-                'C' => "222",
-                'D' => "3",
-                'E' => "33",
-                'F' => "333",
-                'G' => "4",
-                'H' => "44",
-                'I' => "444",
-                'J' => "5",
-                'K' => "55",
-                'L' => "555",
-                'M' => "6",
-                'N' => "66",
-                'O' => "666",
-                'P' => "7",
-                'Q' => "77",
-                'R' => "777",
-                'S' => "7777",
-                'T' => "8",
-                'U' => "88",
-                'V' => "888",
-                'W' => "9",
-                'X' => "99",
-                'Y' => "999",
-                'Z' => "9999",
-                ' ' => "0",
-                '\n' => "\n",
-                _ => panic!("heyho")
-            };
-            let t = s.chars().nth(0).unwrap();
-            if p == t {
-                sbuf.push(' ');
-            }
-            sbuf.push_str(s);
-            p = t; 
-        } 
-        write!(w, "Case #{}: {}", (1+i), sbuf);
+                    Err(err) => {
+                            e[counter] = '*';
+                            counter += 1;
+                            e[counter] = ' ';
+                    }
+                }
+            },
+            'G' => {
+                let num = c.as_str().parse::<i32>();
+                let e = map.entry('G').or_default();
+                match num {
+                    Ok(n) => {
+                        for i in 0..n {
+                            e[counter] = '*';
+                            counter += 1;
+                        }
+                            e[counter] = ' ';
+                    },
+
+                    Err(err) => {
+                            e[counter] = '*';
+                            counter += 1;
+                            e[counter] = ' ';
+                    }
+                }
+            },
+             'F' => {
+                let num = c.as_str().parse::<i32>();
+                let e = map.entry('F').or_default();
+                match num {
+                    Ok(n) => {
+                        for i in 0..n {
+                            e[counter] = '*';
+                            counter += 1;
+                        }
+                            e[counter] = ' ';
+                    },
+
+                    Err(err) => {
+                            e[counter] = '*';
+                            counter += 1;
+                            e[counter] = ' ';
+                    }
+                }
+            },
+              'E' => {
+                let num = c.as_str().parse::<i32>();
+                let e = map.entry('E').or_default();
+                match num {
+                    Ok(n) => {
+                        for i in 0..n {
+                            e[counter] = '*';
+                            counter += 1;
+                        }
+                            e[counter] = ' ';
+                    },
+
+                    Err(err) => {
+                            e[counter] = '*';
+                            counter += 1;
+                            e[counter] = ' ';
+                    }
+                }
+            },
+               'C' => {
+                let num = c.as_str().parse::<i32>();
+                let e = map.entry('C').or_default();
+                match num {
+                    Ok(n) => {
+                        for i in 0..n {
+                            e[counter] = '*';
+                            counter += 1;
+                        }
+                            e[counter] = ' ';
+                    },
+
+                    Err(err) => {
+                            e[counter] = '*';
+                            counter += 1;
+                    }
+                }
+            },                      
+               'B' => {
+                let num = c.as_str().parse::<i32>();
+                let e = map.entry('B').or_default();
+                match num {
+                    Ok(n) => {
+                        for i in 0..n {
+                            e[counter] = '*';
+                            counter += 1;
+                        }
+                            e[counter] = ' ';
+                    },
+
+                    Err(err) => {
+                            e[counter] = '*';
+                            counter += 1;
+                            e[counter] = ' ';
+                    }
+                }
+            },            
+               'A' => {
+                let num = c.as_str().parse::<i32>();
+                let e = map.entry('A').or_default();
+                match num {
+                    Ok(n) => {
+                        for i in 0..n {
+                            e[counter] = '*';
+                            counter += 1;
+                        }
+                            e[counter] = ' ';
+                    },
+
+                    Err(err) => {
+                            e[counter] = '*';
+                            counter += 1;
+                            e[counter] = ' ';
+                    }
+                }
+            },            
+               'a' => {
+                let num = c.as_str().parse::<i32>();
+                let e = map.entry('a').or_default();
+                match num {
+                    Ok(n) => {
+                        for i in 0..n {
+                            e[counter] = '*';
+                            counter += 1;
+                        }
+                            e[counter] = ' ';
+                    },
+
+                    Err(err) => {
+                            e[counter] = '*';
+                            counter += 1;
+                            e[counter] = ' ';
+                    }
+                }
+            },            
+               'b' => {
+                let num = c.as_str().parse::<i32>();
+                let e = map.entry('b').or_default();
+                match num {
+                    Ok(n) => {
+                        for i in 0..n {
+                            e[counter] = '*';
+                            counter += 1;
+                        }
+                            e[counter] = ' ';
+                    },
+
+                    Err(err) => {
+                            e[counter] = '*';
+                            counter += 1;
+                            e[counter] = ' ';
+                    }
+                }
+            },            
+               'c' => {
+                let num = c.as_str().parse::<i32>();
+                let e = map.entry('c').or_default();
+                match num {
+                    Ok(n) => {
+                        for i in 0..n {
+                            e[counter] = '*';
+                            counter += 1;
+                        }
+                            e[counter] = ' ';
+                    },
+
+                    Err(err) => {
+                            e[counter] = '*';
+                            counter += 1;
+                            e[counter] = ' ';
+                    }
+                }
+            },                         
+                'd' => {
+                let num = c.as_str().parse::<i32>();
+                let e = map.entry('d').or_default();
+                match num {
+                    Ok(n) => {
+                        for i in 0..n {
+                            e[counter] = '*';
+                            counter += 1;
+                        }
+                            e[counter] = ' ';
+                    },
+
+                    Err(err) => {
+                            e[counter] = '*';
+                            counter += 1;
+                            e[counter] = ' ';
+                    }
+                }
+            },                          
+                'e' => {
+                let num = c.as_str().parse::<i32>();
+                let e = map.entry('e').or_default();
+                match num {
+                    Ok(n) => {
+                        for i in 0..n {
+                            e[counter] = '*';
+                            counter += 1;
+                        }
+                            e[counter] = ' ';
+                    },
+
+                    Err(err) => {
+                            e[counter] = '*';
+                            counter += 1;
+                            e[counter] = ' ';
+                    }
+                }
+            },            
+                'g' => {
+                let num = c.as_str().parse::<i32>();
+                let e = map.entry('g').or_default();
+                match num {
+                    Ok(n) => {
+                        for i in 0..n {
+                            e[counter] = '*';
+                            counter += 1;
+                        }
+                            e[counter] = ' ';
+                    },
+
+                    Err(err) => {
+                            e[counter] = '*';
+                            counter += 1;
+                            e[counter] = ' ';
+                    }
+                }
+            },            
+                'f' => {
+                let num = c.as_str().parse::<i32>();
+                let e = map.entry('f').or_default();
+                match num {
+                    Ok(n) => {
+                        for i in 0..n {
+                            e[counter] = '*';
+                            counter += 1;
+                        }
+
+                        e[counter] = ' ';
+                    },
+
+                    Err(err) => {
+                            e[counter] = '*';
+                            counter += 1;
+                            e[counter] = ' ';
+                    }
+                }
+            },            
+            _ => panic!("invalid string")
+
+        }
+        counter += 1;
     }
-}
+
+    let mut upper= Vec::new();
+    let mut lower = Vec::new();
+    for (x, s)  in map {
+        if s[0].is_ascii_uppercase() {
+            upper.push(s);
+        } else {
+            lower.push(s);
+        }
+    }
+
+    upper.sort_by(|a,b| b[0].cmp(&a[0]));
+    lower.sort_by(|a,b| b[0].cmp(&a[0]));
+
+    for i in upper {
+        for j in i {
+            print!("{}", j);
+        }
+        println!();
+    }
+    for i in lower{
+        for j in i {
+            print!("{}", j);
+        }
+        println!();
+    }
+} 
 
 
 fn main() {
