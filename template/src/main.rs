@@ -36,7 +36,7 @@ impl<R: BufRead> Scanner<R> {
             }
         }
     }
-    // annoying EOF parsing 
+    // annoying EOF parsing
     fn read_str(&mut self) -> Option<String>{
         // should probably trim stuff
         let mut s = String::new();
@@ -58,33 +58,32 @@ impl<R: BufRead> Scanner<R> {
   }
 }
 
+fn song_decoder(song: &str) -> String {
+    let s = song.to_string();
+    let xs: String = s.replace("WUB", " ");
+    let xs = xs.trim();
+    let xs = xs.split(" ");
+    println!("{:?}", xs);
+    String::from("fuck mig")
+}
+
+
+fn high_and_low(numbers: &str) -> String {
+    let xs = numbers.split(" ").map(|x| x.parse::<i32>().unwrap()).collect::<Vec<i32>>();
+    let min = xs.iter().max().copied().unwrap();
+    let max= xs.iter().min().unwrap();
+    format!("{} {}", max, min)
+}
 
 
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let mut n = 0;
-    let mut prev = 0;
-    let mut res = 0;
-    while n != -1 {
-        let n : i32 = scan.token();
-        if (n == -1 ) {
-            break
-        }
-        for i in (0..n) {
-            let speed:i32 = scan.token();
-            let hours:i32 = scan.token();
-            res += speed * (hours - prev);
-            prev = hours;
-        }
-        writeln!(w, "{} miles", res);
-        prev = 0;
-        res = 0;
-    }
-} 
 
-
+}
 fn main() {
     let (stdin, stdout) = (io::stdin(), io::stdout());
     let mut scan = Scanner::new(stdin.lock());
+    let s = high_and_low("3 9 3 2 1");
+    println!("{}", s);
     let mut out = io::BufWriter::new(stdout.lock());
     solve(&mut scan, &mut out);
 }

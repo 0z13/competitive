@@ -1,1 +1,1 @@
-/home/z/repos/competive/template/target/debug/template: /home/z/repos/competive/template/src/main.rs
+/home/jo/repos/competitive/template/target/debug/template: /home/jo/repos/competitive/template/src/main.rs
