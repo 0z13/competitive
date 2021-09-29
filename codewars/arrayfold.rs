@@ -1,35 +1,3 @@
-fn main() {
-    let switch: bool = true;
-    let val = 3 + if switch {3} else {2};
-    let test = [1,2,3,4,5];
-    let v =  fold_array(&test, 3);
-    println!("{:?}", v)
-}
-
-
-fn nb_year(p0: i32, percent: f64, aug: i32, p: i32)-> i32 {
-    let mut pop = p0 as f64;
-    let mut res = 0;
-    while pop < (p as f64) {
-        res += 1;
-        pop = (pop + ((pop * percent)) / 100.0) + (aug as f64);
-    }
-   res
- }
-
- fn check_exam(arr_a: &[&str], arr_b: &[&str]) -> i64 {
-     let mut score = 0;
-
-     for (x,y) in arr_a.iter().zip(arr_b) {
-         if x.eq(y) {
-             score += 4;
-         } else {
-             score -= 1;
-         }
-     }
-     score
-}
-
 fn uneven_fold(arr: Vec<i32>) -> Vec<i32> {
     let mut v = vec![];
     let mid = (arr.len() as f64 / 2 as f64).floor() as usize;
@@ -70,3 +38,5 @@ fn fold_array(arr: &[i32], runs: usize) -> Vec<i32> {
     }
     v
 }
+
+
