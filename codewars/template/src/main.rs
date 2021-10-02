@@ -1,28 +1,15 @@
 use std::ascii::AsciiExt;
 
 fn main() {
-    let v = solution("helloMyMan");
+    let v = alphabet_position("The sunset sets at twelve o' clock.");
     println!("{:?}", v)
 }
 
-fn solution(s: &str) -> String {
-    let s= s.chars().collect::<Vec<char>>();
-    let mut res = format!("");
-    let mut i = 0;
-    while i < s.len() - 1 {
-        if s[i] == s[i].to_ascii_lowercase() && s[i+1] == s[i+1].to_ascii_uppercase() {
-            res.push(s[i]);
-            res.push(' ');
-            res.push(s[i+1].to_ascii_lowercase());
-            i += 1;
-        } else {
-            res.push(s[i]);
-        }
-        i += 1;
-    }
-    res.push(s[s.len() - 1]);
-    res
+fn alphabetic_two(text: &str) -> String {
+    text
+        .chars()
+        .filter(|x| x.is_alphabetic())
+        .map(|x| (x.to_ascii_lowercase() as u8 - 96).to_string())
+        .collect::<Vec<String>>()
+        .join(" ")
 }
-
-
-
