@@ -19,3 +19,5 @@ fn infected(s: &str) -> f64 {
     }
     (counter as f64 / number_of_cases as f64) * 100
 }
+
+
