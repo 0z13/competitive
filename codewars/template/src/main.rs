@@ -1,42 +1,48 @@
 
-fn main() {
-    let x = vec![1,2,3,4,5,6];
-    calc(x);
+#![allow(dead_code)]
+use std::collections::HashMap;
+
+use std::collections::hash_map::DefaultHasher;
+use std::hash::Hasher;
+
+struct UrlShortener {
+    shortToLong: HashMap<String, String>,
+    longToShort: HashMap<String, String>,
+    hasher: DefaultHasher,
 }
 
-fn calc(array: Vec<i32>) -> i32 {
-    let mut arr = vec![];
-
-    for (i, j) in array.iter().enumerate() {
-        let mut num = j.to_owned();
-        if num > 0 {
-            num = num * num;
-        }
-        if (i+1) % 3 == 0 {
-            num = num *3;
-        }
-        if (i+1) % 5 == 0 {
-            num = num * (-1);
-        }
-        arr.push(num)
+impl UrlShortener {
+    fn new() -> Self {
+        Self {
+            shortToLong: HashMap::new(),
+            longToShort: HashMap::new(),
+            hasher: DefaultHasher::new(),
+         }
     }
-    arr.iter().sum()
+
+    fn shorten(&self, long_url: &str) -> String {
+        self.hasher.write(&str);
+        let hash = self.hasher.finish();
+        let hash: u8 = hash.into();
+        let short_url = format!("{}{}", "short.ly/", hash.to_string());
+        self.shortToLong.insert(short_url.clone(),long_url.to_string());
+        self.longToShort.insert(long_url.to_string(), short_url.clone());
+        short_url
+    }
+
+    fn redirect(&self, short_url: &str) -> String {
+        let long_url = self.shortToLong.get(&short_url.to_string()).unwrap();
+        long_url.clone()
+    }
 }
 
+fn main() {
+}
 
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn tests() {
-        assert_eq!(calc(vec![0, 2, 1, -6, -3, 3]), 31);
-        assert_eq!(calc(vec![0]), 0);
-        assert_eq!(calc(vec![1, 1, 1, 1, 1]), 5);
-        assert_eq!(calc(vec![1, 1, -9, 9, 16, -15, -45, -73, 26]), 1665);
-        assert_eq!(calc(vec![1, -1, 10, -9, 16, 15, 45, -73, -26]), 2584);
-        assert_eq!(calc(vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), 0);
-        assert_eq!(calc(vec![-5, -5, -5, -5, -5, -5, -5]), -45);
+fn max_profit(quotes: &[u32]) -> u32{
+    let mut v =  vec![];
+    let last = 0;
+    for i in quotes {
+        if i 
     }
 }

@@ -108,3 +108,4 @@ fn main() {
     let mut out = io::BufWriter::new(stdout.lock());
     solve(&mut scan, &mut out);
 }
+
