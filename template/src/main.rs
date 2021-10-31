@@ -89,40 +89,8 @@ fn div_by_self(x: i64) -> bool {
     true
 }
 
-fn indexMap(xs: &Vec<i32>) -> Vec<std::ops::Range<i32>> {
-    let mut ret = vec![];
-    for i in 0..xs.len() - 1 {
-        let start = xs[i];
-        let end = xs[i+1];
-        ret.push((start..end))
-    }
-    ret
-}
-
 
 fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-    let n: i32 = scan.token();
-    let mut dates = vec![];
-    let mut map: HashMap<i32,i32> = HashMap::new();
-    for i in 0..n {
-        let nn: i32 = scan.token();
-        for i in 0..nn {
-            let share:i32 = scan.token();
-            let date:i32 = scan.token();
-            dates.push(date);
-            map.insert(date, share);
-
-        }
-    }
-    dates.sort();
-    let ranges = indexMap(&dates);
-    for i in ranges {
-        for (k, v) in map {
-            if i.contains(&k) {
-
-            }
-        }
-    }
 
 }
 fn main() {
