@@ -3,8 +3,10 @@
 #![allow(unused_imports)]
 use std::cmp::{max, min, Reverse};
 use std::cmp::Ordering::{Equal,Less,Greater};
+use std::collections::btree_set::Intersection;
 use std::collections::{HashMap, BTreeMap, HashSet};
 use std::io::{self, prelude::*};
+use std::iter::FromIterator;
 use std::str;
 use std::f64::consts::PI;
 use std::fmt::Display;
@@ -90,26 +92,19 @@ fn div_by_self(x: i64) -> bool {
 }
 
 
-fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
-
-    loop {
-
-        let mut x = scan.token::<i32>();
-        let mut y = scan.token::<i32>();
-
-        if x == 0 && y == 0 {
-            break;
-        }
-        if (x + y) == 13 {
-            writeln!(w, "{}", "Never speak again.");
-        } else if x > y {
-            writeln!(w, "{}", "To the convention.");
-        } else if x == y {
-            writeln!(w, "{}", "Undecided.");
-        } else {
-            writeln!(w, "{}", "Left beehind.");
-        }
-    }
+fn solve<R, W>(scan: &mut Scanner<R>, w: &mut W)
+where
+    R: BufRead,
+    W: Write,
+{
+    let jack: i64 = scan.token();
+    let jill: i64 = scan.token();
+    let  v: Vec<u64> = (0..jack).map(|_| scan.token()).collect();
+    let vv: Vec<i64> = (0..jill).map(|_| scan.token()).collect();
+    let set1:HashSet<i64> = HashSet::from_iter(v);
+    let set2: HashSet<i64> = HashSet::from_iter(vv);
+    let inter:HashSet<_> =  set1.intersection(&set2).collect();
+    writeln!(w, "{}", inter.len());
 }
 fn main() {
     let (stdin, stdout) = (io::stdin(), io::stdout());
