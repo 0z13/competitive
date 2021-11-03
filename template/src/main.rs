@@ -91,20 +91,17 @@ fn div_by_self(x: i64) -> bool {
     true
 }
 
-// 
+//
 fn solve<R, W>(scan: &mut Scanner<R>, w: &mut W)
 where
     R: BufRead,
     W: Write,
 {
-    let jack: i64 = scan.token();
-    let jill: i64 = scan.token();
-    let  v: Vec<u64> = (0..jack).map(|_| scan.token()).collect();
-    let vv: Vec<i64> = (0..jill).map(|_| scan.token()).collect();
-    let set1:HashSet<i64> = HashSet::from_iter(v);
-    let set2: HashSet<i64> = HashSet::from_iter(vv);
-    let inter:HashSet<_> =  set1.intersection(&set2).collect();
-    writeln!(w, "{}", inter.len());
+    let m = scan.token::<i32>();
+    let a = scan.token::<i32>();
+    let b = scan.token::<i32>();
+    let c = scan.token::<i32>();
+    a+b+c > 2*m
 }
 fn main() {
     let (stdin, stdout) = (io::stdin(), io::stdout());
