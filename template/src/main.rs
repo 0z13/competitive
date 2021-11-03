@@ -91,7 +91,7 @@ fn div_by_self(x: i64) -> bool {
     true
 }
 
-
+// 
 fn solve<R, W>(scan: &mut Scanner<R>, w: &mut W)
 where
     R: BufRead,
