@@ -97,15 +97,7 @@ where
     R: BufRead,
     W: Write,
 {
-    let a: i32 = scan.token();
-    let b: i32 = scan.token();
-    let c: i32 = scan.token();
-    let n: i32 = scan.token();
-    if (a > 0 && b > 0 && c > 0 && n >= 3 && (a + b + c) >= n) {
-        writeln!(w, "{}", "YES");
-    } else {
-        writeln!(w, "{}", "NO");
-    }
+    
 }
 
 fn main() {
