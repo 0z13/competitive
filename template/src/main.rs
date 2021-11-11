@@ -80,31 +80,87 @@ where
     R: BufRead,
     W: Write,
 {
-    let n = scan.token::<i32>();
-    for i in 0..n {
-        let s = scan.token::<String>();
-        let len: i32 = scan.token();
-        let mut v: Vec<i32> = vec![];
-        let mut s1 = scan.token::<String>();
-        if s1.len() > 2 {
-            s1.remove(0);
-            s1.remove((s1.len() - 1));
-            let _v: Vec<&str> = s1.split(',').collect();
-            v = _v.iter().map(|x| x.parse::<i32>().unwrap()).collect();
+    let n: i32 = scan.token();
+    let t: i32 = scan.token();
+    let mut v: Vec<i32> = (0..n).map(|_| scan.token()).collect();
+
+    match t {
+        1 => {
+            writeln!(w, "{}", 7);
+        }
+        2 => {
+            let mut s = String::from("");
+            if v[0] > v[1] {
+                s = String::from("Bigger");
+            } else if v[1] > v[0] {
+                s = String::from("Smaller");
+            } else {
+                s = String::from("Equal");
+            }
+            writeln!(w, "{}", s);
+        }
+        3 => {
+            let mut v = [v[0], v[1], v[2]];
+            v.sort();
+            writeln!(w, "{}", v[1]);
+        }
+        4 => {
+            let res: i32 = v.into_iter().sum();
+            writeln!(w, "{}", res);
+        }
+        5 => {
+            let sm: i32 = v.into_iter().filter(|x| x % 2 == 0).sum();
+            writeln!(w, "{}", sm);
+        }
+        6 => {
+            let tmp: Vec<u8> = v
+                .into_iter()
+                .map(|x| (x as u8 % 26) + ('a' as u8))
+                .collect();
+
+            for i in tmp {
+                write!(w, "{}", i as char);
+            }
+            writeln!(w, "{}", "");
         }
 
-        let res = eval(s, &mut v);
-        match res {
-            Some(x) => {
-                print!("[");
-                for i in (0..x.len() - 1) {
-                    print!("{},", x[i]);
+        7 => {
+            let mut idx = v[0];
+            v[0] = -1;
+            loop {
+                if idx == -1 {
+                    println!("{}", "Cyclic");
+                    break;
                 }
-                println!("{}]", x.last().unwrap());
+                if idx >= v.len() as i32 {
+                    println!("{}", "Out");
+                    break;
+                }
+                if idx == (v.len() - 1) as i32 {
+                    println!("{}", "Done");
+                    break;
+                }
+                v[idx as usize] = -1;
+                idx = v[idx as usize];
             }
-            None => println!("error"),
+        }
+
+        _ => {
+            panic!("these instructions suck");
         }
     }
+}
+
+fn seven(v: Vec<i32>, counter: usize, index: usize) {
+    let idx: usize = v[index] as usize;
+    if v.len() - 1 < idx {
+        println!("{}", "Out");
+        return;
+    } else if v.len() - 1 == idx {
+        println!("{}", "Done");
+        return;
+    }
+    seven(v, (counter + 1), idx)
 }
 
 fn main() {
