@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 #![allow(unused)]
 #![allow(unused_imports)]
+#![feature(slice_group_by)]
 use std::cmp::Ordering::{Equal, Greater, Less};
 use std::cmp::{max, min, Reverse};
 use std::collections::btree_set::Intersection;
@@ -81,86 +82,77 @@ where
     W: Write,
 {
     let n: i32 = scan.token();
-    let t: i32 = scan.token();
+    let opt: i32 = scan.token();
     let mut v: Vec<i32> = (0..n).map(|_| scan.token()).collect();
 
-    match t {
+    match opt {
         1 => {
-            writeln!(w, "{}", 7);
+            let mut f = true;
+            for i in &v {
+                for j in &v {
+                    if i != j && i + j == 7777 {
+                        writeln!(w, "{}", "Yes");
+                        f = false;
+                        break;
+                    }
+                }
+            }
+            if f {
+                writeln!(w, "{}", "No");
+            }
         }
         2 => {
-            let mut s = String::from("");
-            if v[0] > v[1] {
-                s = String::from("Bigger");
-            } else if v[1] > v[0] {
-                s = String::from("Smaller");
+            let l1 = v.len();
+            let l2: HashSet<i32> = HashSet::from_iter(v);
+            if l1 == l2.len() {
+                writeln!(w, "{}", "Unique");
             } else {
-                s = String::from("Equal");
+                writeln!(w, "{}", "Contains duplicate");
             }
-            writeln!(w, "{}", s);
         }
         3 => {
-            let mut v = [v[0], v[1], v[2]];
-            v.sort();
-            writeln!(w, "{}", v[1]);
+            let mut map: HashMap<&i32, usize> = HashMap::new();
+            let mut mx = 0;
+            let mut entry = 0;
+            for i in &v {
+                let counter = map.entry(i).or_insert(0);
+                *counter += 1;
+            }
+
+            for (i, j) in map {
+                if j > mx {
+                    mx = j;
+                    entry = *i;
+                }
+            }
+
+            if v.len() % 2 == 0 && mx >= (v.len() / 2) {
+                writeln!(w, "{}", entry);
+            } else if v.len() % 2 != 0 && mx >= (v.len() / 2 + 1) {
+                writeln!(w, "{}", entry);
+            } else {
+                writeln!(w, "{}", -1);
+            }
         }
         4 => {
-            let res: i32 = v.into_iter().sum();
-            writeln!(w, "{}", res);
+            v.sort();
+            let l = v.len();
+            let idx = l / 2;
+            if l % 2 != 0 {
+                writeln!(w, "{}", v[idx]);
+            } else {
+                writeln!(w, "{} {}", v[idx - 1], v[idx]);
+            }
         }
         5 => {
-            let sm: i32 = v.into_iter().filter(|x| x % 2 == 0).sum();
-            writeln!(w, "{}", sm);
-        }
-        6 => {
-            let tmp: Vec<u8> = v
-                .into_iter()
-                .map(|x| (x as u8 % 26) + ('a' as u8))
-                .collect();
-
-            for i in tmp {
-                write!(w, "{}", i as char);
-            }
-            writeln!(w, "{}", "");
-        }
-
-        7 => {
-            let mut idx = v[0];
-            v[0] = -1;
-            loop {
-                if idx == -1 {
-                    println!("{}", "Cyclic");
-                    break;
-                }
-                if idx >= v.len() as i32 {
-                    println!("{}", "Out");
-                    break;
-                }
-                if idx == (v.len() - 1) as i32 {
-                    println!("{}", "Done");
-                    break;
-                }
-                v[idx as usize] = -1;
-                idx = v[idx as usize];
+            let mut xs: Vec<i32> = v.into_iter().filter(|x| x >= &100 && x <= &999).collect();
+            xs.sort();
+            for i in xs {
+                write!(w, "{} ", i);
             }
         }
-
-        _ => {
-            panic!("these instructions suck");
-        }
+        _ => {}
     }
-}
-
-fn seven(v: Vec<i32>, counter: usize, index: usize) {
-    let idx: usize = v[index] as usize;
-    if v.len() - 1 < idx {
-        println!("{}", "Out");
-        return;
-    } else if v.len() - 1 == idx {
-        println!("{}", "Done");
-        return;
-    }
-    seven(v, (counter + 1), idx)
 }
 
 fn main() {

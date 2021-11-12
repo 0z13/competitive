@@ -1,11 +1,16 @@
 #![allow(dead_code)]
 #![allow(unused)]
 #![allow(unused_imports)]
+#![feature(slice_group_by)]
+use std::cmp::Ordering::{Equal, Greater, Less};
 use std::cmp::{max, min, Reverse};
-use std::collections::{HashMap, BTreeMap, HashSet};
-use std::io::{self, prelude::*};
-use std::str;
+use std::collections::btree_set::Intersection;
+use std::collections::{BTreeMap, HashMap, HashSet};
 use std::f64::consts::PI;
+use std::fmt::Display;
+use std::io::{self, prelude::*};
+use std::iter::FromIterator;
+use std::str;
 struct Scanner<R> {
     reader: R,
     buf_str: Vec<u8>,
@@ -34,76 +39,120 @@ impl<R: BufRead> Scanner<R> {
             }
         }
     }
-    fn read_str(&mut self) -> String {
+    // annoying EOF parsing
+    fn read_str(&mut self) -> Option<String> {
         let mut s = String::new();
-        self.reader.read_line(&mut s);
-        return s; 
-   }
-}
-fn sevens(xs: Vec<i32>) -> bool {
-    for i in (0..xs.len()) {
-        for j in ((i+1)..xs.len()) {
-            if xs[i] != xs[j] && xs[i]+xs[j]==7777 {
-                return true;
-            }
+        let mut si = self.reader.read_line(&mut s);
+        if s.eq("\n") {
+            return None;
+        }
+        if s.eq("EOF\n") {
+            return None;
+        }
+        if s.eq("EOF") {
+            return None;
+        }
+        match si {
+            // EOF
+            Ok(0) => None,
+            _ => Some(s.trim_end().to_string()),
         }
     }
-    return false;
 }
 
-fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
+fn eval(instrs: String, xs: &mut Vec<i32>) -> Option<Vec<i32>> {
+    for instr in instrs.chars() {
+        match instr {
+            'R' => xs.reverse(),
+            'D' => {
+                if xs.len() == 0 {
+                    return None;
+                }
+                xs.remove(0);
+            }
+            _ => {}
+        }
+    }
+    Some(xs.clone())
+}
+
+fn solve<R, W>(scan: &mut Scanner<R>, w: &mut W)
+where
+    R: BufRead,
+    W: Write,
+{
     let n: i32 = scan.token();
-    let t: i32 = scan.token();
-    let mut xs: Vec<i32> = (0..n).map(|_| scan.token()).collect();
-    xs.rdxsort();
-    match t {
+    let opt: i32 = scan.token();
+    let mut v: Vec<i32> = (0..n).map(|_| scan.token()).collect();
+
+    match opt {
         1 => {
-            if xs.len() <= 1 {
-                writeln!(w, "{}", "No");
-            } else if sevens(xs) {
-                writeln!(w, "{}", "Yes");
-            } else {
+            let mut f = true;
+            for i in &v {
+                for j in &v {
+                    if i != j && i + j == 7777 {
+                        writeln!(w, "{}", "Yes");
+                        f = false;
+                        break;
+                    }
+                }
+            }
+            if f {
                 writeln!(w, "{}", "No");
             }
-        },
+        }
         2 => {
-           let len = xs.len();
-           xs.dedup();
-           if xs.len() == len { 
-               writeln!(w, "{}", "Unique");
-           } else {
-               writeln!(w, "{}", "Contains duplicate");
-           }
+            let l1 = v.len();
+            let l2: HashSet<i32> = HashSet::from_iter(v);
+            if l1 == l2.len() {
+                writeln!(w, "{}", "Unique");
+            } else {
+                writeln!(w, "{}", "Contains duplicate");
+            }
         }
         3 => {
-            let len =xs.len(); 
-            let avg = (len as f32 / 2.0).ceil();
-            if (xs[0] == xs[(avg -1.0) as usize]) {
-                writeln!(w, "{}", xs[0]);
+            let mut map: HashMap<&i32, usize> = HashMap::new();
+            let mut mx = 0;
+            let mut entry = 0;
+            for i in &v {
+                let counter = map.entry(i).or_insert(0);
+                *counter += 1;
+            }
+
+            for (i, j) in map {
+                if j > mx {
+                    mx = j;
+                    entry = *i;
+                }
+            }
+
+            if v.len() % 2 == 0 && mx >= (v.len() / 2) {
+                writeln!(w, "{}", entry);
+            } else if v.len() % 2 != 0 && mx >= (v.len() / 2 + 1) {
+                writeln!(w, "{}", entry);
             } else {
                 writeln!(w, "{}", -1);
             }
         }
         4 => {
-             let len = xs.len();
-             let mid = len/2;
-             if (len % 2 != 0) {
-                 writeln!(w, "{}", xs[len/2]);
-             } else {
-                 writeln!(w, "{} {}", xs[mid-1], xs[mid]);
-             }
+            v.sort();
+            let l = v.len();
+            let idx = l / 2;
+            if l % 2 != 0 {
+                writeln!(w, "{}", v[idx]);
+            } else {
+                writeln!(w, "{} {}", v[idx - 1], v[idx]);
+            }
         }
         5 => {
-            let xs = xs.iter().filter(|x| x >= &&100 && x <= &&999 ).collect::<Vec<&i32>>();
+            let mut xs: Vec<i32> = v.into_iter().filter(|x| x >= &100 && x <= &999).collect();
+            xs.sort();
             for i in xs {
                 write!(w, "{} ", i);
             }
         }
-        _ => {
-            panic!("kurrrrchaaa");
-        }
+        _ => {}
     }
-                
 }
 
 fn main() {
