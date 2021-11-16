@@ -1,7 +1,6 @@
 #![allow(dead_code)]
 #![allow(unused)]
 #![allow(unused_imports)]
-#![feature(slice_group_by)]
 use std::cmp::Ordering::{Equal, Greater, Less};
 use std::cmp::{max, min, Reverse};
 use std::collections::btree_set::Intersection;
@@ -82,77 +81,30 @@ where
     W: Write,
 {
     let n: i32 = scan.token();
-    let opt: i32 = scan.token();
-    let mut v: Vec<i32> = (0..n).map(|_| scan.token()).collect();
+    let a: Vec<String> = (0..n).map(|_| scan.token()).collect();
+    let mut b = a.clone();
+    let mut c = a.clone();
+    let len = a.len(); 
+    // sort
 
-    match opt {
-        1 => {
-            let mut f = true;
-            for i in &v {
-                for j in &v {
-                    if i != j && i + j == 7777 {
-                        writeln!(w, "{}", "Yes");
-                        f = false;
-                        break;
-                    }
-                }
-            }
-            if f {
-                writeln!(w, "{}", "No");
-            }
-        }
-        2 => {
-            let l1 = v.len();
-            let l2: HashSet<i32> = HashSet::from_iter(v);
-            if l1 == l2.len() {
-                writeln!(w, "{}", "Unique");
-            } else {
-                writeln!(w, "{}", "Contains duplicate");
-            }
-        }
-        3 => {
-            let mut map: HashMap<&i32, usize> = HashMap::new();
-            let mut mx = 0;
-            let mut entry = 0;
-            for i in &v {
-                let counter = map.entry(i).or_insert(0);
-                *counter += 1;
-            }
+    b.sort_by(|a,b| a.cmp(b));
+    c.sort_by(|a,b| b.cmp(a));
+    // join
+    let a = a.join(" ");
+    let b = b.join(" ");
+    let c = c.join(" ");
 
-            for (i, j) in map {
-                if j > mx {
-                    mx = j;
-                    entry = *i;
-                }
-            }
-
-            if v.len() % 2 == 0 && mx >= (v.len() / 2) {
-                writeln!(w, "{}", entry);
-            } else if v.len() % 2 != 0 && mx >= (v.len() / 2 + 1) {
-                writeln!(w, "{}", entry);
-            } else {
-                writeln!(w, "{}", -1);
-            }
-        }
-        4 => {
-            v.sort();
-            let l = v.len();
-            let idx = l / 2;
-            if l % 2 != 0 {
-                writeln!(w, "{}", v[idx]);
-            } else {
-                writeln!(w, "{} {}", v[idx - 1], v[idx]);
-            }
-        }
-        5 => {
-            let mut xs: Vec<i32> = v.into_iter().filter(|x| x >= &100 && x <= &999).collect();
-            xs.sort();
-            for i in xs {
-                write!(w, "{} ", i);
-            }
-        }
-        _ => {}
+    if a.chars().zip(b.chars()).filter(|(a,b)| a == b).count() == len {
+        writeln!(w, "{}", "INCREASING");
     }
+    else if a.chars().zip(c.chars()).filter(|(a,b)| a==b).count() == len {
+        writeln!(w, "{}", "DECREASING");
+    } else {
+        writeln!(w, "{}", "NEITHER");
+    }
+    
+    
+
 }
 
 fn main() {
