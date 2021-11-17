@@ -80,30 +80,6 @@ where
     R: BufRead,
     W: Write,
 {
-    let n: i32 = scan.token();
-    let a: Vec<String> = (0..n).map(|_| scan.token()).collect();
-    let mut b = a.clone();
-    let mut c = a.clone();
-    let len = a.len(); 
-    // sort
-
-    b.sort_by(|a,b| a.cmp(b));
-    c.sort_by(|a,b| b.cmp(a));
-    // join
-    let a = a.join(" ");
-    let b = b.join(" ");
-    let c = c.join(" ");
-
-    if a.chars().zip(b.chars()).filter(|(a,b)| a == b).count() == len {
-        writeln!(w, "{}", "INCREASING");
-    }
-    else if a.chars().zip(c.chars()).filter(|(a,b)| a==b).count() == len {
-        writeln!(w, "{}", "DECREASING");
-    } else {
-        writeln!(w, "{}", "NEITHER");
-    }
-    
-    
 
 }
 
