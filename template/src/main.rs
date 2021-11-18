@@ -80,6 +80,20 @@ where
     R: BufRead,
     W: Write,
 {
+    let s = scan.read_str().unwrap();
+    let mut v: Vec<char> = vec![];
+    for c in s.chars() {
+        if !v.is_empty() && c == '<' {
+            v.pop();
+        }
+         else {
+            v.push(c);
+         }
+    }
+    
+    let s: String = v.iter().collect(); 
+    writeln!(w, "{}", s);
+    
 
 }
 
