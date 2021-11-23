@@ -75,27 +75,74 @@ fn eval(instrs: String, xs: &mut Vec<i32>) -> Option<Vec<i32>> {
     Some(xs.clone())
 }
 
-fn solve<R, W>(scan: &mut Scanner<R>, w: &mut W)
+fn solve<R, W>(scan: &mut Scanner<R>, w: &mut W) 
 where
     R: BufRead,
     W: Write,
 {
-    let s = scan.read_str().unwrap();
-    let mut v: Vec<char> = vec![];
-    for c in s.chars() {
-        if !v.is_empty() && c == '<' {
-            v.pop();
+    let n:i32 = scan.token();
+    let mut v: Vec<i32> = (0..n).map(|_| scan.token()).collect();
+    v.sort();
+    let mut prev = v.remove(0);
+    let mut res : Vec<Vec<i32>> = vec![];
+    let mut builder: Vec<i32> = vec![prev];
+    for i in v {
+        if (i-1) == prev {
+            builder.push(i);
+        } else {
+            res.push(builder.clone());
+            builder = vec![];
+            builder.push(i);
         }
-         else {
-            v.push(c);
-         }
+        prev = i;
     }
-    
-    let s: String = v.iter().collect(); 
-    writeln!(w, "{}", s);
-    
+    res.push(builder.clone());
+    for i in res {
+        if i.len() < 3 {
+            for j in i {
+                print!("{} ", j);
+            } 
+        }
+       else {
+            let max = i.iter().max().unwrap();
+            let min = i.iter().min().unwrap();
+            print!("{}-{} ", min, max);
+        }
+    }
 
 }
+// fn solve<R, W>(scan: &mut Scanner<R>, w: &mut W)
+// where
+//     R: BufRead,
+//     W: Write,
+// {
+//     let n:i32 = scan.token();
+//     let mut v: Vec<char> = (0..n).map(|_| scan.token()).collect();
+//     let stack:Vec<char> = vec![];
+//     let mut index = 0;
+//     loop {
+//         if v.len() == 0 {
+//             break;
+//         }
+//         let c = v.remove(0);
+//         if c == '(' || c == '{' || c == '[' {
+//             stack.push(curr);
+//         } else {
+//             l_paren = stack.pop()
+//             match l_paren {
+//                 Some(x) => {
+//                     if x == '(' && c == ')' {
+                        
+//                     }
+//                 } 
+//                 None => {
+//                     println!("{}", "wrongwrong")
+//                     return;
+//                 }
+//             }
+//         }
+//     }
+// }
 
 fn main() {
     let (stdin, stdout) = (io::stdin(), io::stdout());
