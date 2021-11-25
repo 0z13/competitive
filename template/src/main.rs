@@ -10,6 +10,8 @@ use std::fmt::Display;
 use std::io::{self, prelude::*};
 use std::iter::FromIterator;
 use std::str;
+use crate::Instr::{DefineExpr,EvalExpr};
+
 struct Scanner<R> {
     reader: R,
     buf_str: Vec<u8>,
@@ -58,92 +60,82 @@ impl<R: BufRead> Scanner<R> {
         }
     }
 }
+type Op = char;
 
-fn eval(instrs: String, xs: &mut Vec<i32>) -> Option<Vec<i32>> {
-    for instr in instrs.chars() {
-        match instr {
-            'R' => xs.reverse(),
-            'D' => {
-                if xs.len() == 0 {
-                    return None;
-                }
-                xs.remove(0);
-            }
-            _ => {}
-        }
-    }
-    Some(xs.clone())
+
+#[derive(Debug)]
+enum Instr {
+    DefineExpr(i32, String),
+    EvalExpr(Op, String, String),
 }
 
-fn solve<R, W>(scan: &mut Scanner<R>, w: &mut W) 
-where
-    R: BufRead,
-    W: Write,
-{
-    let n:i32 = scan.token();
-    let mut v: Vec<i32> = (0..n).map(|_| scan.token()).collect();
-    v.sort();
-    let mut prev = v.remove(0);
-    let mut res : Vec<Vec<i32>> = vec![];
-    let mut builder: Vec<i32> = vec![prev];
-    for i in v {
-        if (i-1) == prev {
-            builder.push(i);
-        } else {
-            res.push(builder.clone());
-            builder = vec![];
-            builder.push(i);
+fn parse(xs:Vec<Vec<String>>) -> Vec<Instr> {
+    let mut res:Vec<Instr> = vec![];
+    
+    for v in xs {
+        if v[0].eq(&String::from("define")) {
+            let x:i32 = v[1].parse().unwrap();
+            let a = DefineExpr(x,v[2].clone());
+            res.push(a)
         }
-        prev = i;
-    }
-    res.push(builder.clone());
-    for i in res {
-        if i.len() < 3 {
-            for j in i {
-                print!("{} ", j);
-            } 
-        }
-       else {
-            let max = i.iter().max().unwrap();
-            let min = i.iter().min().unwrap();
-            print!("{}-{} ", min, max);
+        if v[0].eq(&String::from("eval")) {
+            let op = v[2].parse::<char>().unwrap();
+            let a = EvalExpr(op, v[1].clone(), v[3].clone());
+            res.push(a);
         }
     }
-
+    res
 }
-// fn solve<R, W>(scan: &mut Scanner<R>, w: &mut W)
-// where
-//     R: BufRead,
-//     W: Write,
-// {
-//     let n:i32 = scan.token();
-//     let mut v: Vec<char> = (0..n).map(|_| scan.token()).collect();
-//     let stack:Vec<char> = vec![];
-//     let mut index = 0;
-//     loop {
-//         if v.len() == 0 {
-//             break;
-//         }
-//         let c = v.remove(0);
-//         if c == '(' || c == '{' || c == '[' {
-//             stack.push(curr);
-//         } else {
-//             l_paren = stack.pop()
-//             match l_paren {
-//                 Some(x) => {
-//                     if x == '(' && c == ')' {
-                        
-//                     }
-//                 } 
-//                 None => {
-//                     println!("{}", "wrongwrong")
-//                     return;
-//                 }
-//             }
-//         }
-//     }
-// }
 
+
+
+
+
+
+fn solve<R: BufRead, W: Write>(scan: &mut Scanner<R>, w: &mut W) {
+        let mut s = scan.read_str();
+        let mut counter = 0;
+        let mut flag = false;
+        while s.is_some() {
+                counter += 1;
+                let mut res = format!("Case {}: ", counter);
+                if let Some(z) = s {
+                       let m: Vec<&str> = z.split(' ').collect();
+                       match m[0] {
+                           "Ab" =>
+                           {res.push_str("G#");}
+                           "G#" => 
+                           {res.push_str("Ab");}
+                           "D#" =>
+                           {res.push_str("Eb");}
+                           "Eb" =>
+                           {res.push_str("D#");}
+                           "A#" =>
+                           {res.push_str("Bb");}
+                           "Bb" =>
+                           {res.push_str("A#");}
+                           "C#" =>
+                           {res.push_str("Db");}
+                           "Db" =>
+                           {res.push_str("C#");}
+                           "Db" =>
+                           {res.push_str("G#");}
+                           "F#" => 
+                           {res.push_str("Gb");}
+                           "Gb" => 
+                           {res.push_str("F#");}
+                           _ => {res.push_str("UNIQUE");
+                                 flag = true;
+                           }
+                        }
+                        if !flag {
+                            res.push_str(format!(" {}", m[1]).as_str());
+                        }
+                 }
+             writeln!(w,"{}",res);
+             s = scan.read_str();
+         }
+}
 fn main() {
     let (stdin, stdout) = (io::stdin(), io::stdout());
     let mut scan = Scanner::new(stdin.lock());
